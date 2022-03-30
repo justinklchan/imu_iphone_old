@@ -16,6 +16,8 @@ class ViewController: UIViewController, ChartViewDelegate {
     @IBOutlet weak var stopButton: UIButton!
     @IBOutlet weak var label: UILabel!
     
+    var ts: Double = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -37,6 +39,8 @@ class ViewController: UIViewController, ChartViewDelegate {
     }
     
     @IBAction func startSensors(_ sender: Any) {
+        ts=NSDate().timeIntervalSince1970
+        label.text=String(format: "%f", ts)
         startAccelerometers()
         startGyros()
         startButton.isEnabled = false
@@ -75,8 +79,6 @@ class ViewController: UIViewController, ChartViewDelegate {
         // initialize file with header line
         do {
             // get timestamp in epoch time
-            let ts = NSDate().timeIntervalSince1970
-            label.text=String(format: "%f", ts)
             let file = "accel_file_\(ts).txt"
             if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
                 accel_file_url = dir.appendingPathComponent(file)
@@ -136,7 +138,6 @@ class ViewController: UIViewController, ChartViewDelegate {
           self.motion.startGyroUpdates()
         
         do {
-            let ts = NSDate().timeIntervalSince1970
             let file = "gyro_file_\(ts).txt"
             if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
                 gyro_file_url = dir.appendingPathComponent(file)
